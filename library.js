@@ -31,16 +31,12 @@ const library = {
 // p01: Coding Music - 2 tracks
 // p02: Other Playlist - 1 tracks
 const printPlaylists = function() {
-  let count = 0;
   for (let index in library.playlists) { // Iterate through playlists
     let eachList = library.playlists[index];
-    for (let tracks of eachList.tracks) { // Iterate through tracks within each playlist
-      count++;
-    }
-    console.log(`${eachList.id}: ${eachList.name} - ${count} tracks`);
-    count = 0;
+    console.log(`${eachList.id}: ${eachList.name} - ${eachList.tracks.length} tracks`);
   }
 }
+
 // prints a list of all tracks, using the following format:
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
@@ -51,20 +47,28 @@ const printTracks = function() {
     console.log(`${index}: ${track.name} by ${track.artist} (${track.album})`);
   }
 }
+
 // prints a list of tracks for a given playlist, using the following format:
 // p01: Coding Music - 2 tracks
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 const printPlaylist = function(playlistId) {
-
+  let playlist = library.playlists[playlistId];
+  if (playlist) {
+    console.log(`${playlistId}: ${playlist.name} - ${playlist.tracks.length} tracks`);
+    for (let index of playlist.tracks) { // Iterate through tracks
+      let track = library.tracks[index];
+      console.log(`${index}: ${track.name} by ${track.artist} (${track.album})`);
+    } 
+  } else {
+    console.log(`${playlistId} does not exist.`)
+  } 
 }
-
 
 // adds an existing track to an existing playlist
 const addTrackToPlaylist = function(trackId, playlistId) {
 
 }
-
 
 // generates a unique id
 // (already implemented: use this for addTrack and addPlaylist)
