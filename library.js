@@ -32,26 +32,25 @@ const library = {
 // p02: Other Playlist - 1 tracks
 const printPlaylists = function() {
   let count = 0;
-  for (let playlist in library.playlists) {
-    let eachList = library.playlists[playlist];
-    for (let tracks of eachList.tracks) {
+  for (let index in library.playlists) { // Iterate through playlists
+    let eachList = library.playlists[index];
+    for (let tracks of eachList.tracks) { // Iterate through tracks within each playlist
       count++;
     }
     console.log(`${eachList.id}: ${eachList.name} - ${count} tracks`);
     count = 0;
   }
 }
-printPlaylists();
-
 // prints a list of all tracks, using the following format:
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 // t03: Four Thirty-Three by John Cage (Woodstock 1952)
 const printTracks = function() {
-
+  for (let index in library.tracks) {
+    let track = library.tracks[index];
+    console.log(`${index}: ${track.name} by ${track.artist} (${track.album})`);
+  }
 }
-
-
 // prints a list of tracks for a given playlist, using the following format:
 // p01: Coding Music - 2 tracks
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
