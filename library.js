@@ -54,20 +54,56 @@ const printTracks = function() {
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 const printPlaylist = function(playlistId) {
   let playlist = library.playlists[playlistId];
+  
   if (playlist) {
     console.log(`${playlistId}: ${playlist.name} - ${playlist.tracks.length} tracks`);
     for (let index of playlist.tracks) { // Iterate through tracks
       let track = library.tracks[index];
       console.log(`${index}: ${track.name} by ${track.artist} (${track.album})`);
-    } 
+    }
   } else {
-    console.log(`${playlistId} does not exist.`)
+    console.log(`Playlist ${playlistId} does not exist.`)
   } 
 }
 
 // adds an existing track to an existing playlist
 const addTrackToPlaylist = function(trackId, playlistId) {
+  let playlist = library.playlists;
+  let tracks = library.tracks;
+  let trackSuccess = false;
+  let playlistSuccess = false;
 
+  for (let index in tracks) {
+    if (tracks[index].id === trackId) { // Check if track exists
+      trackSuccess = true;
+    }
+  }
+  if (!trackSuccess) {
+    console.log(`Track ${trackId} does not exist.`)
+  } else {
+    for (let index in playlist) {
+    
+      if (playlist[index].id === playlistId) { // Check if playlist exists
+        playlistSuccess = true;
+  
+        for (let track of playlist[index].tracks) {
+  
+          if (track === trackId) { // Make sure not to add a duplicate track
+            console.log(`Track ${trackId} already exists in playlist ${playlistId}`);
+            trackSuccess = false;
+          }        
+        }
+        if (trackSuccess) {
+          // All validations were successfull. Add track to playlist
+          playlist[index].tracks.push(trackId);
+          console.log(`Track ${trackId} added to playlist ${playlistId}`);
+        }
+      }
+    }  
+    if (!playlistSuccess) {
+      console.log(`Playlist ${playlistId} does not exist.`)
+    }
+  }
 }
 
 // generates a unique id
