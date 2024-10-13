@@ -53,15 +53,21 @@ const printTracks = function() {
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 const printPlaylist = function(playlistId) {
-  let playlist = library.playlists[playlistId];
+  let playlist = library.playlists;
+  let playlistSuccess = false;
   
-  if (playlist) {
-    console.log(`${playlistId}: ${playlist.name} - ${playlist.tracks.length} tracks`);
-    for (let index of playlist.tracks) { // Iterate through tracks
-      let track = library.tracks[index];
-      console.log(`${index}: ${track.name} by ${track.artist} (${track.album})`);
+  for (let index in playlist) {
+    
+    if (playlist[index].id === playlistId) { // Check if playlist exists
+      console.log(`${playlistId}: ${playlist[index].name} - ${playlist[index].tracks.length} tracks`);
+      for (let count of playlist[index].tracks) { // Iterate through tracks
+        let track = library.tracks[count];
+        console.log(`${count}: ${track.name} by ${track.artist} (${track.album})`);
+        playlistSuccess = true;
+      }
     }
-  } else {
+  }
+  if (!playlistSuccess) {
     console.log(`Playlist ${playlistId} does not exist.`)
   } 
 }
@@ -115,9 +121,17 @@ const generateUid = function() {
 
 // adds a track to the library
 const addTrack = function(name, artist, album) {
+  let newTrack = 't0' + (Object.keys(library.tracks).length + 1);
 
+  library.tracks[newTrack] = {
+    id: generateUid(),
+    name: name,
+    artist: artist,
+    album: album
+  }
+  console.log(library.tracks);
 }
-
+addTrack('Musica', 'Artista', 'CD');
 
 // adds a playlist to the library
 const addPlaylist = function(name) {
